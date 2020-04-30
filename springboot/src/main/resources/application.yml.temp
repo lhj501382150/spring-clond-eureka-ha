@@ -1,0 +1,7 @@
+server:
+      port: 9999
+num: ${random.int[104,9999]}
+msg: Hello ${num}
+
+      
+  
