@@ -1,0 +1,20 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://192.168.170.147:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    hostname: ${spring.cloud.client.ip-address}
+    ip-address: 192.168.170.148
+
+spring:
+  profiles:
+    active: es1
+  application:
+    name: eureka-server
+
+server:
+  port: 8761
