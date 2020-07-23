@@ -1,0 +1,141 @@
+EXPIRE 设置过期时间
+zinterstore 组合一个或多个有序集合
+
+String 命令
+	存储内容
+		  字节串 浮点数 整数
+	set 
+	get
+	incr  		incr key-name 将键存在的值+1
+	decr  		decr key-name 将键存在的值-1
+	incrby  	incrby key-name amount 将键存在的值+amount
+	decrby  	decrby key-name amount 将键存在的值-amount
+	incrbyfloat incrbyfloat key-name amount 将键存在的值加浮点数 amount
+	append  	append key-name value 将value追加到当前存储值末尾
+	getrange	getrange key-name start end 获取偏移量start 至偏移量end子串 包含start end
+	setrange	setrange key-name start value 将从start偏移量位置设置值为value
+	getbit		getbit key-name offset
+	setbit		setbit key-name offset value
+	bitcount	bitcount key-name [start end] 取出二进制位为1 的总量
+	bitop		bitop operation dest-key key-name [key-name...] 按位运算 并将结果存入dest-key中
+
+List 列表命令
+	lpush		lpush key-name value [value...]
+	rpush		rpush key-name value [value...]		
+	lpop		lpop key-name
+	rpop 		rpop key-name
+	lindex		lindex key-name offset
+	lrange		lrange key-name start end
+	ltrim		ltrim key-name start end 保留start -end 数据
+	blpop		blpop key-name [key-name...] timeout 
+				从第一个非空列表中弹出最左端元素或者在timeout秒之内阻塞并等待弹出元素的出现
+	brpop 		brpop key-name [key-name...] timeout 
+				从第一个非空列表中弹出最右端元素或者在timeout秒之内阻塞并等待弹出元素的出现
+	rpoplpush	rpoplpush source-key dest-key 
+				source-key 弹出最右侧元素 推入dest-key最左侧 并返回
+	brpoplpush	rpoplpush source-key dest-key timeout
+				source-key 弹出最右侧元素 推入dest-key最左侧 并返回 如果source-key为空timeout秒内阻塞等待
+Set 集合命令
+	sadd 		sadd key-name item [item...]	
+	srem		srem key-name item [item...]
+	sismember	sismember key-name item 返回是否包含词元素
+	scard		scard key-name 返回包含元素数量
+	smembers	smembers key-name 返回包含元素
+	srandmember srandmember key-name [count] 随机返回count个 元素 count为正不重复 为负 重复
+	spop		spop key-name 随机移除元素 并返回
+	smove		smove source-key dest-key item 
+				将item从source-key移除并移入到dest-key 成功返回1失败0
+	sdiff 		sdiff key-name [key-name...] 返回只有第一个集合存在 （差集）
+	sdiffstore 	sdiffstore dest-key key-name [key-name...] 差集结果存入dest-key
+	sinter 		sinter key-name [key-name...] 返回交集
+	sinterstore sinterstore dest-key key-name [key-name...]
+	sunion 		sunion key-name [key-name...] 返回并集
+	sunionstore sunionstore dest-key key-name [key-name...]
+	
+hash 散列 命令
+	hget		hget key-name key 
+	hset		hset key-name key value 
+	hmget		hmget key-name key [key...]
+	hmset		hmset key-name key value [key value ...]
+	hdel		hdel key-name key [key...]
+	hlen		hlen key-name 返回散列对数量
+	hexists 	hexists key-name key 检查给定键是否存在
+	hkeys		hkeys key-name 获取散列包含所有键
+	hvals		hvals key-name 获取散列包含所有值
+	hgetall		hgetall key-name 获取散列所有键值对
+	hincrby		hincrby key-name key increment将散列键对应的值加上整数increment
+	hincrbyfloat hincrbyfloat key-name key increment将散列键对应的值加上浮点数increment
+有序集合 命令
+	zadd		zadd key-name score member [score member...]
+	zrem 		zrem key-name member [member...]
+	zcard		zcard key-name 返回有序集合成员数量
+	zincrby		zincrby key-name increment member 将member分值加上increment
+	zcount 		zcount key-name min max 返回分数值在min-max之间的member
+	zrank		zrank key-name mmeber 返回mmeber排名
+	zscore		zscore key-name member 返回member分值
+	zrange		zrange key-name start stop [withscores] 返回排名介于start stop之间的member [是否包含分值]
+	zrangebyscore  		zrangebyscore key-name min max [withscores] [limit offset count]
+						返回分值介于start stop之间的member [是否包含分值]
+	zremrangebyrank		zremrangebyrank  key-name start stop 移除     排名    在 start-stop之间
+	zremrangebyscore	zremrangebyscore  key-name min max 移除    分值   在 start-stop之间
+	zinterstore			zinterstore dest-key key-count key [key...] [WEIGHTS weight[weight...]] [AGGREGATE|SUM|MIN|MAX ]
+	zunionstore			zunionstore dest-key key-count key [key...] [WEIGHTS weight[weight...]] [AGGREGATE|SUM|MIN|MAX ]
+	分值从大到小排列
+	zrevrank			zrevrank key-name mmeber 返回mmeber排名 分值从大到小排列
+	zrevrange			zrevrange key-name start stop [withscores] 返回分值介于start stop之间的member [是否包含分值]
+	zrevrangebyscore    zrevrangebyscore key-name min max [withscores] [limit offset count]
+	
+发布订阅命令
+	subsribe			subscirbe channel [channel...] 订阅给定的一个或多个频道
+	unsubsribe			unsubsribe [channel [channel]] 退订给定的一个或多个频道 如果不指定 则退订所有频道
+	publish				publish channel message 给定频道发送消息	
+	psubsribe 			psubsribe pattern [pattern...] 订阅给定模式匹配所有频道
+	punsubsribe			punsubsribe [pattern [pattern...]] 退订给定模式匹配多有频道 不指定退订所有模式
+
+其他命令
+	sort 				sort source-key [BY pattern] [limit offset count] [GET pattern [GET pattern...]] [ASC | DESC] [ALPHA] [store des-key]	
+						根据给定选项 对指定的集合，列表或有序集合 进行排序，并将存储排序结果
+						sort key-name
+						sort key-name alpha=true			//按字母顺序
+						hset key-name d-1 1
+						sort key-name by 'd-*->filed' get 'd-*->filed'
+	keys				keys pattern 查询key
+	flushdb				删除当前库
+	flushall			删除所有
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

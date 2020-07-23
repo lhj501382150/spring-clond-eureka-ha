@@ -1,0 +1,6 @@
+Redis 构建 WEB 应用
+  1 登录 和 Cookies 缓存
+  		signed 签名Cookie
+  		token 令牌Cookie
+  2 购物车实现Cookie
+       	散列  	

@@ -1,0 +1,63 @@
+Redis五大类型:字符串（String）、哈希/散列/字典（Hash）、列表（List）、集合（Set）、有序集合（sorted set）五种。
+
+SpringBoot集成redis的RedisTemplate,也分别提供的对这些数据类型的操作。
+主要有5大类：
+redisTemplate.opsForValue();//操作字符串
+redisTemplate.opsForHash();//操作hash
+redisTemplate.opsForList();//操作list
+redisTemplate.opsForSet();//操作set
+redisTemplate.opsForZSet();//操作有序set
+
+String类：
+
+1.redisTemplate.opsForValue().set(key,value)); //设置指定键的值
+2.redisTemplate.opsForValue().get(key)); //获取指定键的值。
+3.redisTemplate.opsForValue().get(key, start, end);//获取存储在键上的字符串的子字符串。
+4.redisTemplate.opsForValue().getAndSet(key, value);//设置键的字符串值并返回其旧值。
+5.redisTemplate.opsForValue().getBit(key, offset);//返回在键处存储的字符串值中偏移处的位值。
+6.redisTemplate.opsForValue().multiGet(keys);//获取所有给定键的值
+7.redisTemplate.opsForValue().setBit(key, offset, value);//存储在键上的字符串值中设置或清除偏移处的位
+8.redisTemplate.opsForValue().set(K key, V value, long timeout, TimeUnit unit);//使用键和到期时间来设置值
+9.redisTemplate.opsForValue().setIfAbsent(key, value);//设置键的值，仅当键不存在时
+10.redisTemplate.opsForValue().set(K key, V value, long offset);//在指定偏移处开始的键处覆盖字符串的一部分
+11.redisTemplate.opsForValue().size(key));//获取存储在键中的值的长度
+12.redisTemplate.opsForValue().multiGet(Collection<K> keys);//为多个键分别设置它们的值
+13.redisTemplate.opsForValue().multiSetIfAbsent(Map<? extends K, ? extends V> m);// 为多个键分别设置它们的值，仅当键不存在时
+
+
+Hash类:
+
+1.redisTemplate.opsForHash().delete(H key, Object... hashKeys);//删除一个或多个哈希字段。
+2.redisTemplate.opsForHash().hasKey(key, hashKey)；//判断是否存在散列字段。
+3.redisTemplate.opsForHash().get(key, hashKey)；//     获取存储在指定键的哈希字段的值。
+4.redisTemplate.opsForHash().entries(key);//返回map集合
+5.redisTemplate.opsForHash().increment(H key, HK hashKey, long delta);//获取存储在指定键的哈希中的所有字段和值
+6.redisTemplate.opsForHash().keys(key)；//返回map的key集合Set
+7.redisTemplate.opsForHash().size(key)； //获取散列中的字段数量
+8.redisTemplate.opsForHash().multiGet(H key, Collection<HK> hashKeys);//获取所有给定哈希字段的值
+9.redisTemplate.opsForHash().putAll(H key, Map<? extends HK, ? extends HV> m)；//为多个哈希字段分别设置它们的值
+10.redisTemplate.opsForHash().put(key, hashKey, value);//设置散列字段的字符串值
+11.redisTemplate.opsForHash().putIfAbsent(key, hashKey, value)；//仅当字段不存在时，才设置散列字段的值
+12.redisTemplate.opsForHash().values(key);// 获取哈希中的所有值
+
+list类：
+1.redisTemplate.opsForList().leftPush(key, value);//从左向右存压栈
+2.redisTemplate.opsForList().rightPush(key, value);//从右向左存压栈
+3.redisTemplate.opsForList().size(key);//获取大小
+4.redisTemplate.opsForList().range(key, start, end);//范围检索,根据下标，返回[start,end]的List
+5.redisTemplate.opsForList().remove(key, i, value);//移除key中值为value的i个,返回删除的个数；如果没有这个元素则返回0
+6.redisTemplate.opsForList().index(key, index);//检索
+7.redisTemplate.opsForList().set(key, index, value);//赋值
+8.redisTemplate.opsForList().trim(key, start, end);//裁剪,void,删除除了[start,end]以外的所有元素  
+9.redisTemplate.opsForList().rightPopAndLeftPush(String sourceKey, String destinationKey);//将源key的队列的右边的一个值删除，然后塞入目标key的队列的左边，返回这个值
+
+set类：
+1.redisTemplate.opsForSet().add(key, value); ;//如果不存在这个字符串，将字符串存入set集合，返回存入元素的个数；如果存在这个字符串就不操作，返回0；
+2.redisTemplate.opsForSet().members(key);//列出key的所有set集合
+3.redisTemplate.opsForSet().randomMember(key);//随机取key的一个set元素
+4.redisTemplate.opsForSet().distinctRandomMembers(key,n);//随机取N次key的元素，组成一个set集合，不可以重复取出
+5.redisTemplate.opsForSet().size(key);//返回set长度
+6.redisTemplate.opsForSet().difference(key, otherkey);//比较key与otherKey的set集合，取出与otherKey的set集合不一样的set集合
+7.redisTemplate.opsForSet().intersect(key, otherkey);//比较key与otherKey的set集合，取出二者交集，返回set交集合
+8.redisTemplate.opsForSet().union(key, otherkey);////比较key与otherKey的set集合，取出二者并集，返回set并集合
+9.redisTemplate.opsForSet().unionAndStore(key, otherkey,destkey);////比较key与otherKey的set集合，取出二者并集，并存入destKey集合，返回destKey集合个数
